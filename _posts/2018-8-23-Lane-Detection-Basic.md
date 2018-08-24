@@ -9,7 +9,7 @@ This project demonstrate how to detect lane lines in images using Python and Ope
 
 Below is an example for land detection:
 
-<img src="examples/laneLines_thirdPass.jpg" width="480" alt="Combined Image" />
+<img src="https://raw.githubusercontent.com/jiajuns/LaneDetectionBasic/blob/master/examples/laneLines_thirdPass.jpg" width="480" alt="Combined Image" />
 
 To start
 ---
