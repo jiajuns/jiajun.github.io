@@ -4,12 +4,9 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+I am an experienced computer vision engineer graduated from Stanford University. I have strong engineering professional skilled in Python, Computer Vision, Artificial Intelligence and Machine Learning. I like snowboarding, biking and I`m also a lover for rowing.
 
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[jiajun.sun@bluerivert.com](mailto:jiajun.sun@bluerivert.com)
