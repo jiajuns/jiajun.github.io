@@ -3,25 +3,8 @@ layout: post
 title: Advanced Lane Finding 
 ---
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+This project is one step furthur to the [Lane Detection Basic](https://jiajuns.github.io/LaneDetectionBasic). This project dose not require identify lane but also produce a measurement of lane`s curvature and vehicle position relative to the lane. Therefore, it requires some knowledge of camera calibration and image rectification. Here's a [link to my video result](https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/project_video.mp4).
 
-This project is one step furthur to the [Lane Detection Basic](https://jiajuns.github.io/LaneDetectionBasic). This project dose not require identify lane but also produce a measurement of lane`s curvature and vehicle position relative to the lane. Therefore, it requires some knowledge of camera calibration and image rectification. Here's a [link to my video result](./output_video.mp4).
-
-[//]: # (Image References)
-
-[image1]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/undistort_output.png "Undistorted"
-
-[image2]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/undistort_test.png "Road Transformed"
-
-[image3]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/binary_example.png "Binary Example"
-
-[image4]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/recitfied_result.png "Warp Example"
-
-[image5]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/fit_line.png "Fit Visual"
-
-[image6]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/output_image.png "Output"
-
-[video1]: https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/project_video.mp4 "Video"
 
 steps of this project are :
 ---
@@ -52,11 +35,11 @@ Image undistortion
 
 I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result:
 
-![alt text][image1]
+<img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/undistort_output.png">
 
 Below is an example of undistorted image for the road.
 
-![alt text][image2]
+<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/undistort_test.png">
 
 
 Create a Thresholded Binary Image
@@ -64,7 +47,7 @@ Create a Thresholded Binary Image
 
 I used a combination of color and gradient thresholds and angle to generate a binary image (thresholding steps at lines 30 through 65 in `/code/image_pipeline.py`).  Here's an example of my output for this step.
 
-![alt text][image3]
+<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/binary_example.png">
 
 Rectify Image
 ---
@@ -86,13 +69,13 @@ The code for my perspective transform includes a function called `rectify()`, wh
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text][image4]
+<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/recitfied_result.png">
 
 Detect lane pixels
 ---
 I use sliding window to identify points on the rectified images and then fit my lane lines with a 2nd order polynomial kinda like this:
 
-![alt text][image5]
+<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/fit_line.png">
 
 Determine the curvature
 ---
@@ -106,4 +89,4 @@ Plot boundary back onto original images
 ---
 I implemented this step in lines 178 through 195 in my code in `/code/image_pipeline.py` in the function `wrap_back()`.  Here is an example of my result on a test image:
 
-![alt text][image6]
+<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/blob/master/examples/output_image.png">
