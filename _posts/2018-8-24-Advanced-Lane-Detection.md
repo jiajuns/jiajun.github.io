@@ -6,6 +6,8 @@ title: Advanced Lane Finding
 This project is one step furthur to the [Lane Detection Basic](https://jiajuns.github.io/LaneDetectionBasic). This project dose not require identify lane but also produce a measurement of lane`s curvature and vehicle position relative to the lane. Therefore, it requires some knowledge of camera calibration and image rectification. Here's a [link to my video result](https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/project_video.mp4).
 
 
+<video src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/project_video.mp4">
+
 steps of this project are :
 ---
 * Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
@@ -39,7 +41,7 @@ I applied this distortion correction to the test image using the `cv2.undistort(
 
 Below is an example of undistorted image for the road.
 
-<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/undistort_test.png">
+<img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/undistort_test.png">
 
 
 Create a Thresholded Binary Image
@@ -47,35 +49,35 @@ Create a Thresholded Binary Image
 
 I used a combination of color and gradient thresholds and angle to generate a binary image (thresholding steps at lines 30 through 65 in `/code/image_pipeline.py`).  Here's an example of my output for this step.
 
-<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/binary_example.png">
+<img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/binary_example.png">
 
 Rectify Image
 ---
 The code for my perspective transform includes a function called `rectify()`, which appears in lines 11 through 28 in the file `/code/image_pipeline.py`.  The `rectify()` function takes as inputs an image (`img`).  I chose the hardcode the source and destination points in the following manner:
 
 ```python
-    src = np.float32(
-        [[288, 660],
-         [1015, 660],
-         [703, 460],
-         [578, 460]])
+src = np.float32(
+    [[288, 660],
+     [1015, 660],
+     [703, 460],
+     [578, 460]])
 
-    dst = np.float32(
-        [[400, 700],
-         [900, 700],
-         [900, 0],
-         [400, 0]])
+dst = np.float32(
+    [[400, 700],
+     [900, 700],
+     [900, 0],
+     [400, 0]])
 ```
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/recitfied_result.png">
+<img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/recitfied_result.png">
 
 Detect lane pixels
 ---
 I use sliding window to identify points on the rectified images and then fit my lane lines with a 2nd order polynomial kinda like this:
 
-<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/fit_line.png">
+<img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/fit_line.png">
 
 Determine the curvature
 ---
@@ -89,4 +91,4 @@ Plot boundary back onto original images
 ---
 I implemented this step in lines 178 through 195 in my code in `/code/image_pipeline.py` in the function `wrap_back()`.  Here is an example of my result on a test image:
 
-<img, src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/output_image.png">
+<img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/output_image.png">
