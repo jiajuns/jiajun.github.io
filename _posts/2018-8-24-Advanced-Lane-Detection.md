@@ -22,18 +22,31 @@ The images for camera calibration are stored in the folder called `camera_cal`. 
 
 Camera Calibration
 ---
+Camera calibration is to solve camera intrinsics and distortion parameters. Most important intrinsics include `focal length` and `principal points`. Here, I take the advantage of OpenCV `cv2.calibrateCamera()` function, which requires two parameters: (1) `objpoints` and (2) `imgpoints`. The code for this step is contained in the first code cell of the IPython notebook located in `advanced_lane_detection.ipynb`
 
-The code for this step is contained in the first code cell of the IPython notebook located in "advanced_lane_detection.ipynb" (or in lines # through # of the file called `code/camera_cal.py`).
+I start by preparing `object points`, which will be the (x, y, z) coordinates of the chessboard corners in the real world. I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.
 
-I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.
+`imgpoints` will be appended with the (x, y) pixel position of each of the corners in the focal plane. OpenCV has predefined a helper function that assists identify chessboard corner location from grayscale image:
 
-I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  
+```python
+img = cv2.imread(file_path)
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+ret, corners = cv2.findChessboardCorners(gray, (nx, ny), None)
+```
+After preparing `objpoints` and `imgpoints`, you can directly use `cv2.calibrateCamera()`:
 
+```python
+ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, img.shape[:2], None, None)
+```
 
 Image undistortion
 ---
 
-I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result:
+Given the distortion coefficient from camera calibration, I can apply distortion correction to the test image using the `cv2.undistort()` function and obtained this result:
+
+```python
+undist = cv2.undistort(img, mtx, dist, None, mtx)
+```
 
 <img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/undistort_output.png">
 
@@ -51,7 +64,7 @@ I used a combination of color and gradient thresholds and angle to generate a bi
 
 Rectify Image
 ---
-The code for my perspective transform includes a function called `rectify()`, which appears in lines 11 through 28 in the file `/code/image_pipeline.py`.  The `rectify()` function takes as inputs an image (`img`).  I chose the hardcode the source and destination points in the following manner:
+The code for my perspective transform includes a function called `rectify()`, which appears in lines 11 through 28 in the file `/code/image_pipeline.py`.  The `rectify()` function takes as inputs an image.  I chose to hardcode the source and destination points in the following manner:
 
 ```python
 src = np.float32(
