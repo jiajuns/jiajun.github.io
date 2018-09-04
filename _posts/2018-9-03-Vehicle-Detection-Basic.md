@@ -3,9 +3,8 @@ layout: post
 title: Vehicle Detection Basic 
 ---
 
-The goal of [this project](https://jiajuns.github.io/VehicleDetectionBasic/) is to write a software pipeline to detect vehicles in a video. Here's a [link to my video result](https://raw.githubusercontent.com/jiajuns/VehicleDetectionBasic/master/output_video_final.mp4)
+The goal of [this project](https://jiajuns.github.io/VehicleDetectionBasic/) is to write a software pipeline to detect vehicles in a video.Here are links to the labeled data for [vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [non-vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip) examples to train your classifier. These example images come from a combination of the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html), the [KITTI vision benchmark suite](http://www.cvlibs.net/datasets/kitti/), and examples extracted from the project video itself. Also You are welcome and encouraged to take advantage of the recently released [Udacity labeled dataset](https://github.com/udacity/self-driving-car/tree/master/annotations) to augment your training data. Here's a [link to my video result](https://raw.githubusercontent.com/jiajuns/VehicleDetectionBasic/master/output_video_final.mp4)
 
-Here are links to the labeled data for [vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/vehicles.zip) and [non-vehicle](https://s3.amazonaws.com/udacity-sdc/Vehicle_Tracking/non-vehicles.zip) examples to train your classifier.  These example images come from a combination of the [GTI vehicle image database](http://www.gti.ssr.upm.es/data/Vehicle_database.html), the [KITTI vision benchmark suite](http://www.cvlibs.net/datasets/kitti/), and examples extracted from the project video itself. Also You are welcome and encouraged to take advantage of the recently released [Udacity labeled dataset](https://github.com/udacity/self-driving-car/tree/master/annotations) to augment your training data. 
 
 Steps of this project
 ---
