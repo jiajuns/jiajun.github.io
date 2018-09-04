@@ -24,105 +24,105 @@ The pipeline consists of 5 steps.
 
 1. Convert images to grayscale,then apply gaussian blur to smooth the image.
 
-    ```python
-    def grayscale(img):
-        """Applies the Grayscale transform
-        This will return an image with only one color channel
-        but NOTE: to see the returned image as grayscale
-        (assuming your grayscaled image is called 'gray')
-        you should call plt.imshow(gray, cmap='gray')"""
-        return cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-        # Or use BGR2GRAY if you read an image with cv2.imread()
-        # return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+{% highlight python %}
+def grayscale(img):
+    """Applies the Grayscale transform
+    This will return an image with only one color channel
+    but NOTE: to see the returned image as grayscale
+    (assuming your grayscaled image is called 'gray')
+    you should call plt.imshow(gray, cmap='gray')"""
+    return cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    # Or use BGR2GRAY if you read an image with cv2.imread()
+    # return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    def gaussian_blur(img, kernel_size):
-        """Applies a Gaussian Noise kernel"""
-        return cv2.GaussianBlur(img, (kernel_size, kernel_size), 0)
+def gaussian_blur(img, kernel_size):
+    """Applies a Gaussian Noise kernel"""
+    return cv2.GaussianBlur(img, (kernel_size, kernel_size), 0)
 
-    kernel_size = 5
-    gray = grayscale(image)
-    blur_gray = gaussian_blur(gray, kernel_size)
-    ```
+kernel_size = 5
+gray = grayscale(image)
+blur_gray = gaussian_blur(gray, kernel_size)
+{% endhighlight %}
 
 2. Obtain edges using canny edge detection.
 
-    ```python
-    def canny(img, low_threshold, high_threshold):
-        """Applies the Canny transform"""
-        return cv2.Canny(img, low_threshold, high_threshold)
+{% highlight python %}
+def canny(img, low_threshold, high_threshold):
+    """Applies the Canny transform"""
+    return cv2.Canny(img, low_threshold, high_threshold)
 
-    low_threshold = 80
-    high_threshold = 150
-    edges = canny(blur_gray, low_threshold, high_threshold)
-    ```
+low_threshold = 80
+high_threshold = 150
+edges = canny(blur_gray, low_threshold, high_threshold)
+{% endhighlight %}
 
 3. Apply a mask to clean up the edges that are not in the interests region.
 
-    ```python
-    def region_of_interest(img, vertices):
-        """
-        Applies an image mask.
+{% highlight python %}
+def region_of_interest(img, vertices):
+    """
+    Applies an image mask.
+    
+    Only keeps the region of the image defined by the polygon
+    formed from `vertices`. The rest of the image is set to black.
+    """
+    #defining a blank mask to start with
+    mask = np.zeros_like(img)   
+    
+    #defining a 3 channel or 1 channel color to fill the mask
+    if len(img.shape) > 2:
+        channel_count = img.shape[2]  # i.e. 3 or 4 depending on your image
+        ignore_mask_color = (255,) * channel_count
+    else:
+        ignore_mask_color = 255
         
-        Only keeps the region of the image defined by the polygon
-        formed from `vertices`. The rest of the image is set to black.
-        """
-        #defining a blank mask to start with
-        mask = np.zeros_like(img)   
-        
-        #defining a 3 channel or 1 channel color to fill the mask
-        if len(img.shape) > 2:
-            channel_count = img.shape[2]  # i.e. 3 or 4 depending on your image
-            ignore_mask_color = (255,) * channel_count
-        else:
-            ignore_mask_color = 255
-            
-        cv2.fillPoly(mask, vertices, ignore_mask_color)
-        masked_image = cv2.bitwise_and(img, mask)
-        return masked_image
+    cv2.fillPoly(mask, vertices, ignore_mask_color)
+    masked_image = cv2.bitwise_and(img, mask)
+    return masked_image
 
 
 
-    mask = np.zeros_like(edges)   
-    ignore_mask_color = 255   
+mask = np.zeros_like(edges)   
+ignore_mask_color = 255   
 
-    # define a four sided polygon to mask
-    imshape = img.shape
-    vertices = np.array([[(0,imshape[0]), (imshape[1]/2, 3*imshape[0]/5), (imshape[1]/2, 3*imshape[0]/5), (imshape[1],imshape[0])]], dtype=np.int32)
-    masked_edges = region_of_interest(edges, vertices)
-    ```
+# define a four sided polygon to mask
+imshape = img.shape
+vertices = np.array([[(0,imshape[0]), (imshape[1]/2, 3*imshape[0]/5), (imshape[1]/2, 3*imshape[0]/5), (imshape[1],imshape[0])]], dtype=np.int32)
+masked_edges = region_of_interest(edges, vertices)
+{% endhighlight %}
 
 4. Use hough transformation to fit lanes to the image.
 
-    ```python
-    def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
-        """
-        `img` should be the output of a Canny transform.
-            
-        Returns an image with hough lines drawn.
-        """
-        lines = cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap)
-        line_img = np.zeros((img.shape[0], img.shape[1], 3), dtype=np.uint8)
-        draw_lines(line_img, lines)
+{% highlight python %}
+def hough_lines(img, rho, theta, threshold, min_line_len, max_line_gap):
+    """
+    `img` should be the output of a Canny transform.
         
-        return line_img
+    Returns an image with hough lines drawn.
+    """
+    lines = cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), minLineLength=min_line_len, maxLineGap=max_line_gap)
+    line_img = np.zeros((img.shape[0], img.shape[1], 3), dtype=np.uint8)
+    draw_lines(line_img, lines)
+    
+    return line_img
 
-    # Define the Hough transform parameters
-    # Make a blank the same size as our image to draw on
-    rho = 1 # distance resolution in pixels of the Hough grid
-    theta = np.pi/180 # angular resolution in radians of the Hough grid
-    threshold = 30     # minimum number of votes (intersections in Hough grid cell)
-    min_line_len = 30 #minimum number of pixels making up a line
-    max_line_gap = 10    # maximum gap in pixels between connectable line segments
-    line_image = np.copy(image)*0 # creating a blank to draw lines on
+# Define the Hough transform parameters
+# Make a blank the same size as our image to draw on
+rho = 1 # distance resolution in pixels of the Hough grid
+theta = np.pi/180 # angular resolution in radians of the Hough grid
+threshold = 30     # minimum number of votes (intersections in Hough grid cell)
+min_line_len = 30 #minimum number of pixels making up a line
+max_line_gap = 10    # maximum gap in pixels between connectable line segments
+line_image = np.copy(image)*0 # creating a blank to draw lines on
 
-    # Run Hough on edge detected image
-    # Output "lines" is an array containing endpoints of detected line segments
-    line_img = hough_lines(masked_edges, rho, theta, threshold, min_line_len, max_line_gap)
-    line_img = region_of_interest(line_img, vertices)
-    ```
+# Run Hough on edge detected image
+# Output "lines" is an array containing endpoints of detected line segments
+line_img = hough_lines(masked_edges, rho, theta, threshold, min_line_len, max_line_gap)
+line_img = region_of_interest(line_img, vertices)
+{% endhighlight %}
 
 5. Draw fitted lanes onto the raw image.
-```python
+{% highlight python %}
 def draw_lines(img, lines, color=[255, 0, 0], thickness=2):
     imshape = img.shape
     for line in lines:
@@ -135,4 +135,4 @@ def draw_lines(img, lines, color=[255, 0, 0], thickness=2):
                 cv2.line(img, (extra_x1, imshape[0]), (extra_x2, 0), color, thickness)
             except:
                 continue
-```
+{% endhighlight %}
