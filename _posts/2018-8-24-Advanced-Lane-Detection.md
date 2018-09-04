@@ -28,14 +28,14 @@ I start by preparing `object points`, which will be the (x, y, z) coordinates of
 
 `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the focal plane. OpenCV has predefined a helper function that assists identify chessboard corner location from grayscale image:
 
-```python
+```
 img = cv2.imread(file_path)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 ret, corners = cv2.findChessboardCorners(gray, (nx, ny), None)
 ```
 After preparing `objpoints` and `imgpoints`, you can directly use `cv2.calibrateCamera()`:
 
-```python
+```
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, img.shape[:2], None, None)
 ```
 
@@ -44,7 +44,7 @@ Image undistortion
 
 Given the distortion coefficient from camera calibration, I can apply distortion correction to the test image using the `cv2.undistort()` function and obtained this result:
 
-```python
+```
 undist = cv2.undistort(img, mtx, dist, None, mtx)
 ```
 
@@ -60,7 +60,7 @@ Create a Thresholded Binary Image
 I used a combination of color and gradient thresholds and angle to generate a binary image (thresholding steps at lines 30 through 65 in `/code/image_pipeline.py`).
 One safe assumption for lane lines are the angle of lines are oritentated around 90 degrees. In order to extract angle information, I apply sobel filter on x and y direction:
 
-```python
+```
 sobelx = cv2.Sobel(r_channel, cv2.CV_64F, 1, 0) # Take the derivative in x
 sobely = cv2.Sobel(r_channel, cv2.CV_64F, 0, 1)
 
@@ -83,7 +83,7 @@ Rectify Image
 ---
 The code for my perspective transform includes a function called `rectify()`, which appears in lines 11 through 28 in the file `/code/image_pipeline.py`.  The `rectify()` function takes as inputs an image.  I chose to hardcode the source and destination points in the following manner:
 
-```python
+```
 src = np.float32(
     [[288, 660],
      [1015, 660],
