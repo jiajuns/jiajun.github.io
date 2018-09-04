@@ -17,7 +17,7 @@ steps of this project are :
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-The images for camera calibration are stored in the folder called code(camera_cal).  The images in **test_images** are for testing your pipeline on single frames. `output_images` contain output from each stage of the pipeline. `project_video.mp4` is the input video for this project. The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions. The `harder_challenge.mp4` video is another optional challenge and is brutal!
+The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames. `output_images` contain output from each stage of the pipeline. `project_video.mp4` is the input video for this project. The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions. The `harder_challenge.mp4` video is another optional challenge and is brutal!
 
 
 Camera Calibration
