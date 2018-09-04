@@ -28,11 +28,12 @@ I start by preparing `object points`, which will be the (x, y, z) coordinates of
 
 `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the focal plane. OpenCV has predefined a helper function that assists identify chessboard corner location from grayscale image:
 
-```
+{% highlight python %}
 img = cv2.imread(file_path)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 ret, corners = cv2.findChessboardCorners(gray, (nx, ny), None)
-```
+{% endhighlight %}
+
 After preparing `objpoints` and `imgpoints`, you can directly use `cv2.calibrateCamera()`:
 
 ```
