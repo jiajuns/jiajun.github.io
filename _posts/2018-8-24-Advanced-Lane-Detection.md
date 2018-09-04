@@ -36,18 +36,18 @@ ret, corners = cv2.findChessboardCorners(gray, (nx, ny), None)
 
 After preparing `objpoints` and `imgpoints`, you can directly use `cv2.calibrateCamera()`:
 
-```
+{% highlight python %}
 ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, img.shape[:2], None, None)
-```
+{% endhighlight %}
 
 Image undistortion
 ---
 
 Given the distortion coefficient from camera calibration, I can apply distortion correction to the test image using the `cv2.undistort()` function and obtained this result:
 
-```
+{% highlight python %}
 undist = cv2.undistort(img, mtx, dist, None, mtx)
-```
+{% endhighlight %}
 
 <img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/undistort_output.png">
 
@@ -61,7 +61,7 @@ Create a Thresholded Binary Image
 I used a combination of color and gradient thresholds and angle to generate a binary image (thresholding steps at lines 30 through 65 in `/code/image_pipeline.py`).
 One safe assumption for lane lines are the angle of lines are oritentated around 90 degrees. In order to extract angle information, I apply sobel filter on x and y direction:
 
-```
+{% highlight python %}
 sobelx = cv2.Sobel(r_channel, cv2.CV_64F, 1, 0) # Take the derivative in x
 sobely = cv2.Sobel(r_channel, cv2.CV_64F, 0, 1)
 
@@ -75,7 +75,7 @@ m_binary[(magnitude >= m_thresh[0]) & (magnitude <= m_thresh[1])] = 1
 angle = np.arctan2(np.absolute(sobely), np.absolute(sobelx))
 anglebinary = np.zeros_like(angle)
 anglebinary[(angle >= angle_thresh[0]) & (angle <= angle_thresh[1])] = 1
-```
+{% endhighlight %}
 
 Here's an example of the output:
 <img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/binary_example.png">
@@ -84,7 +84,7 @@ Rectify Image
 ---
 The code for my perspective transform includes a function called `rectify()`, which appears in lines 11 through 28 in the file `/code/image_pipeline.py`.  The `rectify()` function takes as inputs an image.  I chose to hardcode the source and destination points in the following manner:
 
-```
+{% highlight python %}
 src = np.float32(
     [[288, 660],
      [1015, 660],
@@ -96,7 +96,7 @@ dst = np.float32(
      [900, 700],
      [900, 0],
      [400, 0]])
-```
+{% endhighlight %}
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
