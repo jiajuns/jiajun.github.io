@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Advanced Lane Finding 
+title: [Advanced Lane Finding](https://jiajuns.github.io/AdvancedLaneLines/) 
 ---
 
 This project is one step furthur to the [Lane Detection Basic](https://jiajuns.github.io/LaneDetectionBasic). This project dose not require identify lane but also produce a measurement of lane`s curvature and vehicle position relative to the lane. Therefore, it requires some knowledge of camera calibration and image rectification. Here's a [link to my video result](https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/project_video.mp4).
