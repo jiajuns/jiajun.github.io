@@ -17,7 +17,7 @@ steps of this project are :
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames. `output_images` contain output from each stage of the pipeline. `project_video.mp4` is the input video for this project. The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions. The `harder_challenge.mp4` video is another optional challenge and is brutal!
+The images for camera calibration are stored in the folder called code(camera_cal).  The images in **test_images** are for testing your pipeline on single frames. `output_images` contain output from each stage of the pipeline. `project_video.mp4` is the input video for this project. The `challenge_video.mp4` video is an extra (and optional) challenge for you if you want to test your pipeline under somewhat trickier conditions. The `harder_challenge.mp4` video is another optional challenge and is brutal!
 
 
 Camera Calibration
@@ -57,9 +57,26 @@ Below is an example of undistorted image for the road.
 
 Create a Thresholded Binary Image
 ---
+I used a combination of color and gradient thresholds and angle to generate a binary image (thresholding steps at lines 30 through 65 in `/code/image_pipeline.py`).
+One safe assumption for lane lines are the angle of lines are oritentated around 90 degrees. In order to extract angle information, I apply sobel filter on x and y direction:
 
-I used a combination of color and gradient thresholds and angle to generate a binary image (thresholding steps at lines 30 through 65 in `/code/image_pipeline.py`).  Here's an example of my output for this step.
+```python
+sobelx = cv2.Sobel(r_channel, cv2.CV_64F, 1, 0) # Take the derivative in x
+sobely = cv2.Sobel(r_channel, cv2.CV_64F, 0, 1)
 
+# Threshold magnitude
+magnitude = np.sqrt(sobelx**2 + sobely**2)
+magnitude = np.uint8(255*magnitude/np.max(magnitude))
+m_binary = np.zeros_like(magnitude)
+m_binary[(magnitude >= m_thresh[0]) & (magnitude <= m_thresh[1])] = 1
+
+# Threshold direction
+angle = np.arctan2(np.absolute(sobely), np.absolute(sobelx))
+anglebinary = np.zeros_like(angle)
+anglebinary[(angle >= angle_thresh[0]) & (angle <= angle_thresh[1])] = 1
+```
+
+Here's an example of the output:
 <img src="https://raw.githubusercontent.com/jiajuns/AdvancedLaneLines/master/examples/binary_example.png">
 
 Rectify Image
