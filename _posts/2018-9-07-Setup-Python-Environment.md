@@ -18,11 +18,11 @@ If you are on the darkside, sometimes things can become very tricky. If you don`
 **BUTTT** for linux and MacOS user you don't need to do anything!!! because you already have python in your system. You might ask, what if your project is built on `Python 3.6` but your system is `Python 2.7`. Don't worry please wait I will tell you what to do.
 
 To verify your installation works, do the following in terminal or cygwin  or whatever.
-```cmd
+```code
 python
 ```
 it will print out
-```cmd
+```code
 Python 3.6.6 (default, Jun 28 2018, 04:42:43)
 [GCC 5.4.0 20160609] on linux
 Type "help", "copyright", "credits" or "license" for more information.
@@ -30,12 +30,12 @@ Type "help", "copyright", "credits" or "license" for more information.
 ```
 
 or
-```cmd
+```code
 which python
 ```
 
 it will print out
-```cmd
+```code
 /usr/bin/python
 ```
 
@@ -46,7 +46,7 @@ Don`t put stuff in root environment
 ---
 After setting up python, you cannot resist to run the codebase or any project you find online. Then you realise it requires many packages. For example you receive this error:
 
-```
+```code
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 ModuleNotFoundError: No module named 'pytorch'
@@ -60,22 +60,22 @@ To create a **virtual environment** is what a professional developer will do.
 If you use plain Python, below are the instructions for you!
 
 * First install virtualenv
-```cmd
+```code
 pip install virtualenv
 ```
 
 * Create a `python3` virtualenv called `test_env`
-```
+```code
 virtualenv -p python3 test_env
 ```
 
 * Use this virtualenv `test_env`
-```
+```code
 source test_env/bin/activate
 ```
 
 Then you will see something like this:
-```
+```code
 (test_env) jiajuns@jiajuns-desktop:~$
 ```
 
@@ -85,16 +85,16 @@ Now, you are in your `test_env` environment. When you run `python` in this mode,
 Anaconda has create tools to create conda environment, which works like `virtualenv`. This [link](https://conda.io/docs/user-guide/tasks/manage-environments.html) has detail instruction.
 
 * Create a `python3` conda env called `test_env`
-```
+```code
 conda create -n test_env python=3.6
 ```
 
 use this conda environment `test_env`
-```
+```code
 source activate test_env
 ```
 or
-```
+```code
 activate test_env
 ```
 
@@ -105,29 +105,29 @@ Put library to your virtual environment
 The most popular choice is `pip`
 
 Linux user:
-```
+```code
 sudo apt-get install python-pip
 ```
 
 MacOS user:
-```
+```code
 sudo easy_install pip
 ```
 
 Windows user:
 
 Download [get-pip.py](https://bootstrap.pypa.io/get-pip.py) to a folder on your computer. Open a command prompt window and navigate to the folder containing get-pip.py. Then run
-```
+```code
 python get-pip.py
 ```
 
 Once you have `pip` ready, you can install any package by
-```
+```code
 pip install [package]
 ```
 
 If you have anaconda, you can use conda to install package
-```
+```code
 conda install [package]
 ```
 
@@ -135,14 +135,14 @@ However!
 ---
 For a well maintained project, other developer has prepared something to make your life easier. It is generally called environment file. If the team is using `virtualenv`, the file usually named as `requirements.txt`. [Here](https://github.com/BlueRiverTechnology/ts-datacart) is an example. You can create the environment by:
 
-```
+```code
 virtualenv -p python3 brtenv
 pip install -r requirements.txt
 ```
 
 On the other hand, some team use `conda` to manage environment, the file usually named as `environment.yml`. [Here](https://github.com/BlueRiverTechnology/ts-standcount-model) is an example. You can create the environment by:
 
-```
+```code
 conda env create -f environment.yml
 ```
 
