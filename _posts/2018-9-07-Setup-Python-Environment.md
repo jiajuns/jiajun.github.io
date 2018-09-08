@@ -142,8 +142,8 @@ pip install -r requirements.txt
 
 On the other hand, some team use `conda` to manage environment, the file usually named as `environment.yml`. [Here](https://github.com/BlueRiverTechnology/ts-standcount-model) is an example. You can create the environment by:
 
-```highlight
+{% highlight python %}
 conda env create -f environment.yml
-```
+{% endhighlight %}
 
 Great! you have finished your first step!
